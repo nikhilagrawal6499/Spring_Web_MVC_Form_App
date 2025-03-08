@@ -17,7 +17,7 @@ import com.nikhilit.repository.StudentRepository;
 
 @Controller
 public class StudentController {
-	
+
 	@Autowired
 	private StudentRepository studentRepository;
 
@@ -30,7 +30,6 @@ public class StudentController {
 
 		return "index";
 	}
-	// method to save student data
 
 	private void loadFormData(Model model) {
 		List<String> coursesList = new ArrayList<>();
@@ -50,25 +49,37 @@ public class StudentController {
 		model.addAttribute("timings", timingsList);
 		model.addAttribute("student", student);
 	}
+	// method to save student data
 
 	@PostMapping("/save")
 	public String handleSubmit(Student s, Model model) {
 		System.out.println(s);
 
 //		logic to save
-		
+
 		StudentEntity entity = new StudentEntity();
-		//copy data from model object to entity object
+		// copy data from model object to entity object
 		BeanUtils.copyProperties(s, entity);
 		entity.setTimings(Arrays.toString(s.getTimings()));
-		
+
 		studentRepository.save(entity);
-		
+
 		model.addAttribute("msg", "Student Saved");
-		
+
 		loadFormData(model);
 
 		return "index";
-	}
+	} 
 	// method to display saved student data
+
+	@GetMapping("/viewStudents")
+	public String getStudentData(Model model) {
+
+		// logic to fetch students data
+		List<StudentEntity> studentsList = studentRepository.findAll();
+
+		model.addAttribute("students", studentsList);
+
+		return "data";
+	}
 }

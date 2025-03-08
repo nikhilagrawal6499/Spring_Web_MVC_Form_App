@@ -46,6 +46,7 @@
 				<td><input type="submit" value="Save" /></td>
 			</tr>
 		</table>
+		<a href="viewStudents">View Students</a>
 
 	</form:form>
 </body>
